@@ -1,11 +1,7 @@
-import * as React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-} from 'react-native';
+import * as React from "react";
+import { Text, View, StyleSheet } from "react-native";
 
-import { DraxProvider, DraxView } from 'react-native-drax';
+import { DraxProvider, DraxView } from "react-native-drax";
 
 const App = () => {
   const [received, setReceived] = React.useState([]);
@@ -13,17 +9,23 @@ const App = () => {
   return (
     <DraxProvider>
       <View style={styles.container}>
-        <DraxView
-          style={[styles.centeredContent, styles.receivingZone, styles.magenta]}
-          receivingStyle={styles.receiving}
+      
+        <View style={styles.palette}>
+          <DraxView style={styles.item} dragPayload={"Red"}>
+            <Text>Red</Text>
+          </DraxView>
+          <DraxView
+      
+        receivingStyle={styles.receiving}
           renderContent={({ viewState }) => {
+            
             const receivingDrag = viewState && viewState.receivingDrag;
             const payload = receivingDrag && receivingDrag.payload;
             return (
               <>
-                <Text>Receiving Zone</Text>
-                <Text style={styles.incomingPayload}>{payload || '-'}</Text>
-                <Text style={styles.received}>{received.join(' ')}</Text>
+               
+           
+                <Text style={styles.received}>{received.join('22')}</Text>
               </>
             );
           }}
@@ -34,125 +36,37 @@ const App = () => {
             ]);
           }}
         />
-        <View style={styles.palette}>
-          <DraxView
-            style={[styles.centeredContent, styles.draggableBox, styles.red]}
-            draggingStyle={styles.dragging}
-            dragReleasedStyle={styles.dragging}
-            hoverDraggingStyle={styles.hoverDragging}
-            dragPayload={'R'}
-            longPressDelay={0}
-          >
-            <Text>Red</Text>
-          </DraxView>
-          <DraxView
-            style={[styles.centeredContent, styles.draggableBox, styles.green]}
-            draggingStyle={styles.dragging}
-            dragReleasedStyle={styles.dragging}
-            hoverDraggingStyle={styles.hoverDragging}
-            dragPayload={'G'}
-            longPressDelay={0}
-          >
-            <Text>Green</Text>
-          </DraxView>
-          <DraxView
-            style={[styles.centeredContent, styles.draggableBox, styles.blue]}
-            draggingStyle={styles.dragging}
-            dragReleasedStyle={styles.dragging}
-            hoverDraggingStyle={styles.hoverDragging}
-            dragPayload={'B'}
-            longPressDelay={0}
-          >
+          <DraxView style={styles.item}  dragPayload={"Blue"}>
             <Text>Blue</Text>
           </DraxView>
-          <DraxView
-            style={[styles.centeredContent, styles.draggableBox, styles.yellow]}
-            draggingStyle={styles.dragging}
-            dragReleasedStyle={styles.dragging}
-            hoverDraggingStyle={styles.hoverDragging}
-            dragPayload={'Y'}
-            longPressDelay={0}
-          >
-            <Text>Yellow</Text>
-          </DraxView>
         </View>
-        <DraxView
-          dragPayload={staged.join(' ')}
-          draggable={staged.length > 0}
-          renderContent={({ viewState }) => {
-            const receivingDrag = viewState && viewState.receivingDrag;
-            const payload = receivingDrag && receivingDrag.payload;
-            const dragging = viewState && viewState.dragStatus !== 0;
-            const combinedStyles = [
-              styles.centeredContent,
-              styles.receivingZone,
-              styles.cyan,
-            ];
-            if (dragging) {
-              combinedStyles.push({ opacity: 0.2 });
-            } else if (receivingDrag) {
-              combinedStyles.push(styles.receiving);
-            }
-            return (
-              <View style={combinedStyles}>
-                <Text>Staging Zone</Text>
-                <Text style={styles.incomingPayload}>{payload || '-'}</Text>
-                <Text style={styles.received}>{staged.join(' ')}</Text>
-              </View>
-            );
-          }}
-          renderHoverContent={({ viewState }) => {
-            const offsetStyle = viewState.grabOffset
-              ? {
-                marginLeft: viewState.grabOffset.x - 30,
-                marginTop: viewState.grabOffset.y - 30,
-              }
-              : undefined;
-            const combinedStyles = [
-              styles.centeredContent,
-              styles.draggableBox,
-              styles.cyan,
-              offsetStyle,
-            ];
-            if (viewState.dragStatus === 1) {
-              combinedStyles.push(styles.hoverDragging);
-            }
-            return (
-              <View style={combinedStyles}>
-                <Text style={styles.stagedCount}>{staged.length}</Text>
-              </View>
-            );
-          }}
-          onReceiveDragDrop={(event) => {
-            setStaged([
-              ...staged,
-              event.dragged.payload || '?',
-            ]);
-          }}
-          onDragDrop={() => setStaged([])}
-        />
       </View>
     </DraxProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
     paddingTop: 40,
-    justifyContent: 'space-evenly',
+    justifyContent: "space-evenly",
+  },
+  item:{
+      border:"1px solid black",
+      padding:6,
+      marginBottom:6,
   },
   centeredContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   receivingZone: {
     height: 200,
     borderRadius: 10,
   },
   receiving: {
-    borderColor: 'red',
+    borderColor: "red",
     borderWidth: 2,
   },
   incomingPayload: {
@@ -164,8 +78,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   palette: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "column",
+    justifyContent: "space-evenly",
   },
   draggableBox: {
     width: 60,
@@ -173,28 +87,28 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   green: {
-    backgroundColor: '#aaffaa',
+    backgroundColor: "#aaffaa",
   },
   blue: {
-    backgroundColor: '#aaaaff',
+    backgroundColor: "#aaaaff",
   },
   red: {
-    backgroundColor: '#ffaaaa',
+    backgroundColor: "#ffaaaa",
   },
   yellow: {
-    backgroundColor: '#ffffaa',
+    backgroundColor: "#ffffaa",
   },
   cyan: {
-    backgroundColor: '#aaffff',
+    backgroundColor: "#aaffff",
   },
   magenta: {
-    backgroundColor: '#ffaaff',
+    backgroundColor: "#ffaaff",
   },
   dragging: {
     opacity: 0.2,
   },
   hoverDragging: {
-    borderColor: 'magenta',
+    borderColor: "magenta",
     borderWidth: 2,
   },
   stagedCount: {
